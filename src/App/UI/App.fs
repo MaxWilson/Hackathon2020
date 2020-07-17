@@ -17,7 +17,10 @@ let update msg model =
         with | exn ->
             { model with error = "Error during update: " + exn.ToString() |> Some }, Cmd.Empty
     | UserInput(msg) -> { model with whatsOnYourMind = msg }, Cmd.Empty
-    | CreateNewPost -> { model with whatsOnYourMind = ""; posts = { author = "me"; text = model.whatsOnYourMind; time = DateTime.Now }::model.posts }, Cmd.Empty
+    | CreateNewPost -> 
+    if model.whatsOnYourMind <> "" then 
+        { model with whatsOnYourMind = ""; posts = { author = "me"; text = model.whatsOnYourMind; time = DateTime.Now }::model.posts }, Cmd.Empty
+    else model, Cmd.Empty
 
 let view model dispatch =
     match model.error with
@@ -36,8 +39,8 @@ let view model dispatch =
                         Html.form [
                             prop.onSubmit (fun ev -> ev.preventDefault(); dispatch CreateNewPost)
                             prop.children [
-                                Html.input [prop.onChange (fun txt -> dispatch (UserInput(txt))); prop.value model.whatsOnYourMind; prop.placeholder "What's on your mind?"]
-
+                                Html.textarea [prop.onChange (fun txt -> dispatch (UserInput(txt))); prop.value model.whatsOnYourMind; prop.placeholder "What's on your mind?"]
+                                Html.button[prop.text "Submit"; prop.type'.submit]
                                 ]
                             ]
                         for post in model.posts do
