@@ -13,18 +13,12 @@ namespace rec UI
 module UI =
     open UI
 
-    let chargen_ =
-        Optics.lens (fun (data: UI) -> data.chargen) (fun (value: UI.Chargen.State) (data: UI) ->
-            { data with chargen = value })
-
-    let roster_ =
-        Optics.lens (fun (data: UI) -> data.roster) (fun (value: Domain.Model.Creature list) (data: UI) ->
-            { data with roster = value })
-
     let error_ =
         Optics.lens (fun (data: UI) -> data.error) (fun (value: string option) (data: UI) -> { data with error = value })
 
-    let currentCreatureIndex_ =
-        Optics.lens (fun (data: UI) -> data.currentCreatureIndex) (fun (value: int option) (data: UI) ->
-            { data with
-                  currentCreatureIndex = value })
+    let whatsOnYourMind_ =
+        Optics.lens (fun (data: UI) -> data.whatsOnYourMind) (fun (value: string) (data: UI) ->
+            { data with whatsOnYourMind = value })
+
+    let posts_ =
+        Optics.lens (fun (data: UI) -> data.posts) (fun (value: Post list) (data: UI) -> { data with posts = value })

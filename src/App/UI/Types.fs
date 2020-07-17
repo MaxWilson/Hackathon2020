@@ -1,16 +1,23 @@
 ﻿module UI
+open System
 open Myriadic
-open Domain.Model
+
+type Post = {
+    time: DateTime
+    text: string
+    author: string
+    }
 
 [<Generator.Lenses>]
 type UI = {
-    chargen: UI.Chargen.State
-    roster: Domain.Model.Creature list
     error: string option
-    currentCreatureIndex: int option
+    whatsOnYourMind: string
+    posts: Post list
     }
 
 type Msg =
     | Update of transform: (UI -> UI)
+    | UserInput of string
+    | CreateNewPost
 
 
